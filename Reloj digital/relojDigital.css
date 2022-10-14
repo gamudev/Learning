@@ -1,0 +1,13 @@
+
+.reloj {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+    font-family: 'Courier New', Courier, monospace;
+    color: black;
+    font-size: 192px;
+    background: royalblue;
+    border: solid #000000 1px;
+    text-decoration: none;
+}
