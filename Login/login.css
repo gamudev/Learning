@@ -1,0 +1,24 @@
+body{
+    margin-top: 200px;
+    background-color: darkseagreen;
+}
+
+div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    color: black;
+    font-size: 192px;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+input {
+    font-size: 30px;
+}
+
+button{
+    font-size: 25px;
+    justify-content: left;
+}
