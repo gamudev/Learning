@@ -1,0 +1,19 @@
+.fruta, .acertada {
+    width: 200px;
+    height: 200px;
+    border-radius: 25px;
+    border: solid #000000 1px;
+}
+
+.titulo {
+    font-size: 30;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+.minifruta {
+    width: 50px;
+    height: 50px;
+    border-radius: 25px;
+    border: solid #000000 1px;
+}
