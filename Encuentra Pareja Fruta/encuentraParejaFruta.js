@@ -21,10 +21,12 @@ $(".fruta").click(function(){
             frutaAnteriorId = id;
         } else if (frutaAnterior != fruta){
             //ERROR
-            $("#" + frutaAnteriorId).attr("src", 'img/oculto.png');
-            $("#" + id).attr("src", 'img/oculto.png');
-            frutaAnterior = '';
-            frutaAnteriorId = '';
+            setTimeout(function () {
+                $("#" + frutaAnteriorId).attr("src", 'img/oculto.png');
+                $("#" + id).attr("src", 'img/oculto.png');
+                frutaAnterior = '';
+                frutaAnteriorId = '';
+            },300); 
         } else {
             //ACIERTO
             $("#" + frutaAnteriorId).attr("class", 'acertada');
@@ -33,7 +35,7 @@ $(".fruta").click(function(){
             frutaAnteriorId = '';
             contadorOcultas--;
             if (contadorOcultas == 0){
-                $("body").append("<p class='titulo'>Has ganado!! <button id='reiniciar' onclick='location.reload()'>Jugar de nuevo</button> </p>");
+                $("body").append("<p class='victoria'>HAS GANADO!! <button onclick='location.reload()'>Jugar de nuevo</button> </p>");
             }
         }
     }

@@ -1,11 +1,20 @@
+body {
+    background-color: white;
+    color: black;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
 .fruta, .acertada {
     width: 200px;
     height: 200px;
     border-radius: 25px;
     border: solid #000000 1px;
+    margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .titulo {
+    margin-top: 30px;
+    text-align: center;
     font-size: 30;
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
@@ -16,4 +25,22 @@
     height: 50px;
     border-radius: 25px;
     border: solid #000000 1px;
+    pointer-events: none;
+}
+
+#tablero{
+    margin: auto;
+    width: 830px;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.victoria{
+    margin-top: 30px;
+    text-align: center;
+    font-size: 30;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: chartreuse;
 }
