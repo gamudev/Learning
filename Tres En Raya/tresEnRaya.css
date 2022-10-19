@@ -9,7 +9,7 @@ h1,h2{
 }
 
 h1{
-    font-size: 3em;
+    font-size: 4em;
 }
 
 h2{
@@ -33,5 +33,10 @@ h2{
 
 #textoVictoria{
     visibility: hidden;
-    color: chartreuse;
+    color: seagreen;
+}
+
+#reiniciar{
+    font-size: 20px;
+    color: black;
 }

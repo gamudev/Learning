@@ -44,14 +44,6 @@ function comprobarColumnas() {
 }
 
 function comprobarCruzadas() {
-    // console.log("ENTRA A comprobarCruzadas");
-    // console.log($("#casilla0").html());
-    // console.log($("#casilla4").html());
-    // console.log($("#casilla8").html());
-    // console.log("la otra");
-    // console.log($("#casilla2").html());
-    // console.log($("#casilla4").html());
-    // console.log($("#casilla6").html());
     if (($("#casilla0").html() != '' && $("#casilla0").html() == $("#casilla4").html() && $("#casilla0").html() == $("#casilla8").html()) 
         || ($("#casilla2").html() != '' && $("#casilla2").html() == $("#casilla4").html() && $("#casilla2").html() == $("#casilla6").html())) {
         return true;
