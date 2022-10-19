@@ -1,0 +1,34 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    /*'Press Start 2P' */
+}
+
+h1,
+h2 {
+    text-align: center;
+}
+
+h1 {
+    font-size: 4em;
+}
+
+h2 {
+    font-size: 2.5em;
+}
+
+#tablero {
+    margin: auto;
+    width: 750px;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#tablero>button {
+    width: 20px;
+    height: 20px;
+    max-width: 33.33%;
+    font-size: 10em;
+}
