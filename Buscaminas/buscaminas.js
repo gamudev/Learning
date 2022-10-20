@@ -17,7 +17,7 @@ $("#iniciarBuscaminas").click(function(){
 });
 
 function colocarBombas(tamaño){
-    let numBombas = tamaño / 2;
+    let numBombas = Math.floor(tamaño / 2);
     while (numBombas != 0){
         posicion = Math.floor(Math.random() * (tamaño * tamaño));
         if (!bombas.includes(posicion)){
@@ -30,7 +30,7 @@ function colocarBombas(tamaño){
 function addEvents(){
     $(".tablero").click(function () {
         let casilla = $(this).attr("id");
-        calcularCasillasCercanas();
+        // calcularCasillasCercanas();
         if (bombas.includes(Number(casilla.substring(7,9)))){
             $(this).html("B"); 
             derrota();
