@@ -5,17 +5,16 @@ var tamaño = 10;
 $("#iniciarBuscaminas").click(function(){
     tamaño = Number($("#tamaño").val());
     casillasProximas = [(-tamaño - 1), -tamaño, (-tamaño + 1), -1, 1, (tamaño - 1), tamaño, (tamaño + 1)];
-    console.log(casillasProximas);
     for(let i = 0 ; i < tamaño ; i++){
         for (let j = 0; j < tamaño; j++) {
             $("#tablero").append("<button id='casilla" + (i * 10 + j) + "' class='tablero'></button>");
         }
     }
     $("#tablero").css("width",40*tamaño);
-    $("#seleccionarTamaño").css("visibility","hidden");
+    // $("#mensajes").css("visibility","hidden");
     colocarBombas(tamaño);
-    console.log("Bombas: " + bombas);
     addEvents();
+    $("#mensajes").empty();
 });
 
 function colocarBombas(){
@@ -35,25 +34,19 @@ function addEvents(){
     $(".tablero").click(function () {
         let casilla = Number($(this).attr("id").substring(7,9));
         if ($("#casilla" + casilla).html() != '') return;
-        $(this).css("background-color","gainsboro");
+        $(this).css("background-color", "darkgrey")
+            .css("border-color", "darkgrey")
+            .attr("class","tablero marcada");
         if (bombas.includes(casilla)){
+            $(this).css("background-color","red");
             derrota();
         } else{
             calcularCasillasProximas(casilla);
         }
+        comprobarFinJuego();
     });
 
-    function derrota() {
-        $("body").append("<span>Has perdido</span");
-        $(".tablero").unbind("click");
-        bombas.forEach(function (casillaBomba) {
-            // $("#casilla" +casillaBomba).html("o");
-            $("#casilla" + casillaBomba).append('<img src="img/mina.png" height="15" width="15" />');
-        });
-    }
-
     function calcularCasillasProximas(casilla){
-        console.log("DENTRO calcularCasillasProximas");
         casillasProximas.forEach(function(casillaProxima){
             if (bombas.includes(casilla+casillaProxima)) return;
             if (limiteTablero(casilla, casillaProxima)) return; 
@@ -66,7 +59,10 @@ function addEvents(){
                 case 4: $("#casilla" + (casilla + casillaProxima)).css("color", "brown");; break;
             }
 
-            $("#casilla" + (casilla + casillaProxima)).css("background-color", "gainsboro").html(bombasProximas == 0 ? ' ' : bombasProximas);
+            $("#casilla" + (casilla + casillaProxima)).css("background-color", "darkgrey")
+                .css("border-color", "darkgrey")
+                .attr("class", "tablero marcada")
+                .html(bombasProximas == 0 ? ' ' : bombasProximas);
         });
     }
 
@@ -80,11 +76,8 @@ function addEvents(){
             }
         });
         $("#casilla" + casilla).html(' ');
-        console.log("bombasProximas: " + bombasProximas);
         if (bombasProximas == 0){
-            console.log("ENTRA calcularCasillasProximas");
             calcularCasillasProximas(casilla);
-            console.log("SALE calcularCasillasProximas");
         }
         return bombasProximas;
     }
@@ -112,6 +105,29 @@ function addEvents(){
             $(this).attr("class", "tablero");
         }   
     });
+
+    function comprobarFinJuego(){
+        const casillas = tamaño * tamaño;
+        const marcadas = $(".marcada").toArray().length;
+        const bombas = Math.floor(tamaño * 1.3);
+        console.log("Comprobar FIN -> casillas [" + casillas + "] " + " marcadas " + "[" + marcadas + "] " + " bombas " + "[" + bombas + "] ");
+        if(casillas == marcadas + bombas){
+            victoria();
+        }
+    }
+
+    function victoria(){
+        $("#mensajes").append("<span style='color:green'>Has ganado  </span><button id='nuevaPartida' onclick='location.reload()'>Nueva partida</button>");
+        $(".tablero").unbind();
+    }
+
+    function derrota() {
+        $("#mensajes").append("<span style='color:red'>Has perdido  </span><button id='nuevaPartida' onclick='location.reload()'>Nueva partida</button>");
+        $(".tablero").unbind();
+        bombas.forEach(function (casillaBomba) {
+            $("#casilla" + casillaBomba).append('<img src="img/mina.png" height="15" width="15" />');
+        });
+    }
 }
 
 window.onload = function () {

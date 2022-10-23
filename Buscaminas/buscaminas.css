@@ -20,6 +20,7 @@ h2 {
 
 #tablero {
     margin: auto;
+    margin-top: 10px;
     max-width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -34,14 +35,23 @@ h2 {
     font-weight: bold;
 }
 
-#seleccionarTamaño,
-#seleccionarTamaño>label,
-#seleccionarTamaño>button,
-#seleccionarTamaño>input{
+#mensajes,
+#mensajes>label,
+#mensajes>button,
+#mensajes>input{
     text-align: center;
     font-size: 1.2em;
 }
 
-#seleccionarTamaño>input{
+#mensajes,
+#mensajes>label{
+font-weight: bold;
+}
+
+#mensajes{
+    height: 50px;
+}
+
+#mensajes>input{
     width: 70px;
 }
