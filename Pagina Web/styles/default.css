@@ -1,0 +1,78 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: cursive;
+    /*'Press Start 2P' */
+}
+
+#Inicio{
+    align-items: center;
+    text-align: center;
+    width: 400px;
+    margin: auto;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+#SobreMi {
+    margin-top: 50px;
+}
+
+#SobreMi > img {
+    display: block;
+    margin: auto;
+}
+
+#Portfolio{
+    margin: auto;
+    width: 950;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 100px;
+}
+
+.apps{
+    margin-bottom: 20px;
+    margin-right: 20px;
+}
+
+
+#modalContent,iframe{
+    position: fixed;
+    width: 1000px;
+    height: 800px;
+    background: rgba(0, 0, 0, 0.7);
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+#cabecera-inicio{
+    align-items: center;
+    text-align: center;
+    color: slategrey;
+    size: 1em;
+    margin-bottom: 10px;
+}
+
+#cabecera-nombre{
+    align-items: center;
+    text-align: center;
+    color: black;
+    size: 3em;
+    margin-bottom: 20px;
+}
+
+h2 {
+    align-items: center;
+    text-align: center;
+}
+
+
+#Contacto{
+    margin-top: 50px;
+}

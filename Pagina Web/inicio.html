@@ -1,0 +1,100 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Pagina Web</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles/default.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"
+    >
+        </script>
+
+</head>
+
+<body>
+
+    <nav class="navbar sticky-top navbar-expand-lg  navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Javier García Muñoz</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+                aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 400px;">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#Inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#SobreMi">Sobre mí</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Portfolio">Portfolio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#Contacto">Contacto</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="container">
+        <div id="Inicio">
+            <h5 id="cabecera-inicio">DESARROLLO DE APLICACIONES Y PÁGINAS WEB</h5>
+            <h3 id="cabecera-nombre">MI NOMBRE ES JAVIER GARCÍA, FULL-STACK DEVELOPER. </h3>
+            <p>Esta página es el reflejo del esfuerzo para crecer como profesional dentro de la industria del desarrollo
+                del software. Me he especializado en desarrollo de aplicaciones y páginas web.</p>
+        </div>
+        <div id="SobreMi">
+            <h2>CURRICULUM VITAE</h2>
+            <img src="img/curriculum.JPG">
+        </div>
+        <div id="Portfolio">
+            <h2>MIS PROYECTOS</h2>
+            <div>
+                <button class="apps" id="tresenraya" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img width="400" src="img/tresenraya.JPG">
+                </button>
+                <button class="apps" id="patron" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img width="400" src="img/patron.JPG">
+                </button>
+                <button class="apps" id="calculadora" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img width="400" src="img/calculadora.JPG">
+                </button>
+                <button class="apps" id="buscaminas" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img width="400" src="img/buscaminas.JPG">
+                </button>
+                <button class="apps" id="parejas" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img width="400" src="img/parejas.JPG">
+                </button>
+                <button class="apps" id="reloj" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <img width="400" src="img/reloj.JPG">
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div id="modalContent" class="modal-content">
+                    <iframe id='iframe-modal'></iframe>
+                </div>
+            </div>
+        </div>
+
+        <div id="Contacto">
+            <h2>CONTACTO</h2>
+        </div>
+    </div>
+    <script src="scripts/main.js"></script>
+</body>
+
+</html>
