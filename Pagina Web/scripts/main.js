@@ -1,4 +1,5 @@
-$(".apps").click(function(){
+$(".apps > button").click(function(){
+    console.log($(this))
     const id = $(this).attr("id");
     console.log(id)
     switch(id){

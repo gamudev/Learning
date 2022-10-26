@@ -56,42 +56,62 @@
         </div>
         <div id="SobreMi">
             <h2>CURRICULUM VITAE</h2>
-            <img src="img/curriculum.JPG">
+            <img click="" src="img/curriculum.JPG">
         </div>
         <div id="Portfolio">
             <h2>MIS PROYECTOS</h2>
-            <div>
-                <button class="apps" id="tresenraya" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <img width="400" src="img/tresenraya.JPG">
-                </button>
-                <button class="apps" id="patron" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <img width="400" src="img/patron.JPG">
-                </button>
-                <button class="apps" id="calculadora" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <img width="400" src="img/calculadora.JPG">
-                </button>
-                <button class="apps" id="buscaminas" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <img width="400" src="img/buscaminas.JPG">
-                </button>
-                <button class="apps" id="parejas" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <img width="400" src="img/parejas.JPG">
-                </button>
-                <button class="apps" id="reloj" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <img width="400" src="img/reloj.JPG">
-            </div>
-        </div>
+            <div class="containerApps">
+                <div class="apps">
+                    <button id="tresenraya" type="button" data-bs-toggle="modal" data-bs-target="#modalApp">
+                        <img width="400" src="img/tresenraya.JPG">
+                    </button>
+                </div>
+                <div class="apps">
+                    <button id="patron" type="button" data-bs-toggle="modal" data-bs-target="#modalApp">
+                        <img width="400" src="img/patron.JPG">
+                    </button>
+                </div>
+                <div class="apps">
+                    <button id="calculadora" type="button" data-bs-toggle="modal" data-bs-target="#modalApp">
+                        <img width="400" src="img/calculadora.JPG">
+                    </button>
+                </div>
+                <div class="apps">
+                    <button id="buscaminas" type="button" data-bs-toggle="modal" data-bs-target="#modalApp">
+                        <img width="400" src="img/buscaminas.JPG">
+                    </button>
+                </div>
+                <div class="apps">
+                    <button id="parejas" type="button" data-bs-toggle="modal" data-bs-target="#modalApp">
+                        <img width="400" src="img/parejas.JPG">
+                    </button>
+                </div>
+                <div class="apps">
+                    <button id="reloj" type="button" data-bs-toggle="modal" data-bs-target="#modalApp">
+                      <img width="400" src="img/reloj.JPG">
+                    </button>
+                </div>
+            </div>        
 
         <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div id="modalContent" class="modal-content">
-                    <iframe id='iframe-modal'></iframe>
+        <div class="modal fade" id="modalApp">
+            <div class="modal-dialog modal-fullscreen">
+                <div id="modalContent " class="modal-content">
+                    <button id="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="embed-container">
+                        <iframe id='iframe-modal' frameborder="0" allowfullscreen>
+                        </iframe>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div id="Contacto">
             <h2>CONTACTO</h2>
+                <a href="https://github.com/JGM10"><img src="img/github.png"/></a>
+                <a href="https://www.linkedin.com/in/javier-garcia-mu%C3%B1oz/"><img src="img/linkedin.png"/></a>
+                <a href="https://mailto:javier10gm@gmail.com"><img src="img/mail.png"/></a>
+                <a href="https://www.google.com"><img src="img/whatsapp.png"/></a>
         </div>
     </div>
     <script src="scripts/main.js"></script>

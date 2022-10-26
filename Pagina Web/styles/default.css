@@ -17,7 +17,7 @@ body {
 }
 
 #SobreMi {
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 #SobreMi > img {
@@ -26,30 +26,27 @@ body {
 }
 
 #Portfolio{
-    margin: auto;
-    width: 950;
-    max-width: 100%;
-    display: flex;
-    flex-wrap: wrap;
     margin-top: 100px;
+    margin-bottom: 100px;
 }
 
 .apps{
     margin-bottom: 20px;
     margin-right: 20px;
+    background-color: white;
+    height: 110px;
+    overflow: hidden;
 }
 
-
-#modalContent,iframe{
-    position: fixed;
-    width: 1000px;
-    height: 800px;
-    background: rgba(0, 0, 0, 0.7);
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: 0;
+.apps>button{
+    max-width: 100%;
 }
+
+.apps>button>img{
+    border-radius: 25px;
+    border: solid #000000 1px;
+}
+
 
 #cabecera-inicio{
     align-items: center;
@@ -74,5 +71,49 @@ h2 {
 
 
 #Contacto{
-    margin-top: 50px;
+    margin-top: 100px;
+    align-items: center;
+    text-align: center;
+    width: 500px;
+    margin: auto;
+    max-width: 100%;
+    margin-top: 20px;
+    margin-bottom: 100px;
+}
+
+#Contacto > a > img {
+    height: 75px;
+}
+
+.embed-container {
+    position: relative;
+    padding-bottom: 80%;
+    height: 0;
+    overflow: hidden;
+}
+
+.embed-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#closeModal{
+    font-size: 40px;
+    box-sizing: inherit;
+    opacity: 1;
+    border: solid #000000 1px;
+    margin-right: 20px;
+    margin-left: auto;
+}
+
+.containerApps{
+    margin: auto;
+    width: 950;
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: white;
 }
