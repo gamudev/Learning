@@ -1,19 +1,21 @@
+@import url("https://fonts.googleapis.com/css?family=Dosis");
+/* @import url('https://fonts.googleapis.com/css?family=Muli&display=swap'); */
 body {
     background-color: black;
     color: white;
-    font-family: cursive;
+    font-family: 'Dosis', sans-serif !important;
     /*'Press Start 2P' */
 }
 
 #Inicio{
     align-items: center;
-    text-align: center;
+    text-align: center !important;
     width: 400px;
     margin: auto;
     max-width: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top:50px;
 }
 
 #SobreMi {
@@ -47,14 +49,6 @@ body {
     border: solid #000000 1px;
 }
 
-
-#cabecera-inicio{
-    align-items: center;
-    text-align: center;
-    color: slategrey;
-    size: 1em;
-    margin-bottom: 10px;
-}
 
 #cabecera-nombre{
     align-items: center;
@@ -116,4 +110,10 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     background-color: white;
+}
+
+#cabeceraInicio {
+    color: slategrey;
+    size: 1em !important;
+
 }
