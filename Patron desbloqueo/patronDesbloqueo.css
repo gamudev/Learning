@@ -1,23 +1,21 @@
-body{
-    margin-top: 40px;
-    margin-left: 40px;
-}
 
 .circulo {
     position: relative;
-    width: 120px;
-    height: 120px;
+    width: 10vw;
+    height: 10vw;
     border-radius: 50%;
     border: 5px solid black;
     background: silver;
-    margin-bottom: 50px;
-    margin-right: 50px;
+    margin-bottom: 2.5vw;
+    margin-right: 2.5vw;
+    max-width: 200px;
+    max-height: 200px;
 }
 
 .circulo>div {
     position: absolute;
-    width: 10;
-    height: 10px;
+    width: 1vw;
+    height: 1vw;
     border-radius: 50%;
     background: oranbge;
     margin: auto;
@@ -26,4 +24,10 @@ body{
     bottom: 0;
     right: 0;
     background-color: black;
+}
+
+table{
+    margin: auto;
+    max-width: 100%;
+    flex-wrap: wrap;
 }

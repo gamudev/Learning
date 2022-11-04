@@ -9,26 +9,29 @@ h1,h2{
 }
 
 h1{
-    font-size: 4em;
+    font-size: 3.5vw;
 }
 
 h2{
-    font-size: 2.5em;
+    font-size: 1.8vw;
 }
 
 #tablero{
     margin:auto;
-    width: 750px;
+    width: 65vw;
     max-width: 100%;
+    max-width: 500px;
+    max-height: 500px;
     display: flex;
     flex-wrap: wrap;
 }
 
 #tablero>button{
-    width: 250px;
-    height: 250px;
-    max-width: 33.33%;
-    font-size: 10em;
+    width: 21vw;
+    height: 21vw;
+    max-width: 160px;
+    max-height: 160px;
+    font-size: 8.5vw;
 }
 
 #textoVictoria{
@@ -37,6 +40,6 @@ h2{
 }
 
 #reiniciar{
-    font-size: 20px;
+    font-size: 3vw;
     color: black;
 }
