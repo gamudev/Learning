@@ -1,0 +1,7 @@
+#juego{
+    background-color: rgb(202, 254, 204);
+    border: solid #000000 1px;
+    background-image: url("img/hierba.png");
+    background-size: contain;
+}
+
