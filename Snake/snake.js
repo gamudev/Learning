@@ -2,9 +2,9 @@ $(document).ready(function () {
 
     let juego = $("#juego")[0];
     let context = juego.getContext("2d");
-    let posX = 20,posY = 20;
+    let posX = [], posY = [];
     let comidaPosX, comidaPosY;
-    let tamañoCulebra = 1, tamaño = 1;
+    let tamañoCulebra = 1;
     const BOTON = {
         ARRIBA:38,
         ABAJO:40,
@@ -17,8 +17,11 @@ $(document).ready(function () {
     iniciarJuego();
 
     function iniciarJuego(){
+        posX[0] = 20;
+        posY[0] = 20;
         crearComida();
-        pintarElementos();
+        pintarCulebra(context, posX[0], posY[0]);
+        pintarComida(context, comidaPosX, comidaPosY);
         mover();
     }
 
@@ -27,21 +30,20 @@ $(document).ready(function () {
         comidaPosY = Math.round(Math.random() * 29) * 10;
     }
 
-    function pintarElementos(){
-        pintarCulebra(context, posX, posY);
-        pintarComida(context, comidaPosX, comidaPosY);
-
-    }
-
     function mover(){
-        switch (direccion){
-            case BOTON.DERECHA: validarPosicion(posX + 10) === true ? posX += 10 : ''; break;
-            case BOTON.IZQUIERDA: validarPosicion(posX - 10) === true ? posX -= 10 : ''; break;
-            case BOTON.ABAJO: validarPosicion(posY + 10) === true ? posY += 10 : ''; break;
-            case BOTON.ARRIBA: validarPosicion(posY - 10) === true ? posY -= 10 : ''; break;
-        }
         context.clearRect(0, 0, 300, 300);
-        pintarCulebra(context, posX, posY);
+        for (let idx = tamañoCulebra - 1; idx > 0; idx--) {
+            posX[idx] = posX[idx-1]
+            posY[idx] = posY[idx-1]
+            pintarCulebra(context, posX[idx], posY[idx]);
+        }
+        switch (direccion){
+            case BOTON.DERECHA: validarPosicion(posX[0] + 10) === true ? posX[0] += 10 : ''; break;
+            case BOTON.IZQUIERDA: validarPosicion(posX[0] - 10) === true ? posX[0] -= 10 : ''; break;
+            case BOTON.ABAJO: validarPosicion(posY[0] + 10) === true ? posY[0] += 10 : ''; break;
+            case BOTON.ARRIBA: validarPosicion(posY[0] - 10) === true ? posY[0] -= 10 : ''; break;
+        }
+        pintarCulebra(context, posX[0], posY[0]);
         if (comer()) {
             crearComida();
             pintarComida(context, comidaPosX, comidaPosY);
@@ -56,7 +58,7 @@ $(document).ready(function () {
     function pintarCulebra(context, posX, posY) {
         context.beginPath();
         context.fillStyle = "#000000";
-        context.fillRect(posX, posY, 10 * tamañoCulebra, 10);
+        context.fillRect(posX, posY, 10, 10);
         context.stroke();
     }
 
@@ -81,7 +83,7 @@ $(document).ready(function () {
     }
 
     function comer(){
-        if (posX === comidaPosX && posY === comidaPosY ){
+        if (posX[0] === comidaPosX && posY[0] === comidaPosY ){
             tamañoCulebra++;
             return true;
         }
