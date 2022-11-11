@@ -5,6 +5,7 @@ $(document).ready(function () {
     let posX = [], posY = [];
     let comidaPosX, comidaPosY;
     let tamañoCulebra = 1;
+    let pause = false;
     const BOTON = {
         ARRIBA:38,
         ABAJO:40,
@@ -17,8 +18,12 @@ $(document).ready(function () {
     iniciarJuego();
 
     function iniciarJuego(){
+        posX = [];
+        posY = [];
         posX[0] = 20;
         posY[0] = 20;
+        tamañoCulebra = 1
+        pause = false
         crearComida();
         pintarCulebra(context, posX[0], posY[0]);
         pintarComida(context, comidaPosX, comidaPosY);
@@ -31,6 +36,10 @@ $(document).ready(function () {
     }
 
     function mover(){
+        let finJuego = false;
+        if(pause === true){
+            return;
+        }
         context.clearRect(0, 0, 300, 300);
         for (let idx = tamañoCulebra - 1; idx > 0; idx--) {
             posX[idx] = posX[idx-1]
@@ -38,19 +47,24 @@ $(document).ready(function () {
             pintarCulebra(context, posX[idx], posY[idx]);
         }
         switch (direccion){
-            case BOTON.DERECHA: validarPosicion(posX[0] + 10) === true ? posX[0] += 10 : ''; break;
-            case BOTON.IZQUIERDA: validarPosicion(posX[0] - 10) === true ? posX[0] -= 10 : ''; break;
-            case BOTON.ABAJO: validarPosicion(posY[0] + 10) === true ? posY[0] += 10 : ''; break;
-            case BOTON.ARRIBA: validarPosicion(posY[0] - 10) === true ? posY[0] -= 10 : ''; break;
+            case BOTON.DERECHA: validarPosicion(posX[0] + 10) === true ? posX[0] += 10 : finJuego = true; break;
+            case BOTON.IZQUIERDA: validarPosicion(posX[0] - 10) === true ? posX[0] -= 10 : finJuego = true; break;
+            case BOTON.ABAJO: validarPosicion(posY[0] + 10) === true ? posY[0] += 10 : finJuego = true; break;
+            case BOTON.ARRIBA: validarPosicion(posY[0] - 10) === true ? posY[0] -= 10 : finJuego = true; break;
         }
+        // if(finJuego === true){
+        //     iniciarJuego();
+        // }
         pintarCulebra(context, posX[0], posY[0]);
         if (comer()) {
             crearComida();
-            pintarComida(context, comidaPosX, comidaPosY);
-        } else {
-            pintarComida(context, comidaPosX, comidaPosY)
         }
+        pintarComida(context, comidaPosX, comidaPosY);
         setTimeout(function(){
+            if(finJuego === true){
+                iniciarJuego();
+                return;
+            }
             mover();
         },50);
     }
@@ -71,7 +85,16 @@ $(document).ready(function () {
 
     $(document).keydown(function(e){
         const teclaPulsada = e.which;
-        direccion = teclaPulsada;
+        if(teclaPulsada === 32 ){
+            if(pause === false) {
+                pause = true;
+            } else {
+                pause = false;
+                mover();
+            }
+        } else {
+            direccion = teclaPulsada;
+        }
     });
 
     function validarPosicion(pos){
