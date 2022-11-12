@@ -6,6 +6,7 @@ $(document).ready(function () {
     let comidaPosX, comidaPosY;
     let tamañoCulebra = 1;
     let pause = false;
+    let record = 0;
     const BOTON = {
         ARRIBA:38,
         ABAJO:40,
@@ -18,6 +19,10 @@ $(document).ready(function () {
     iniciarJuego();
 
     function iniciarJuego(){
+        if(record<tamañoCulebra) {
+            record = tamañoCulebra-1;
+        }
+        $("#puntos").html("Puntos: " + (tamañoCulebra - 1) + " | Record: " + (record-1));
         posX = [];
         posY = [];
         posX[0] = 20;
@@ -52,9 +57,6 @@ $(document).ready(function () {
             case BOTON.ABAJO: validarPosicion(posY[0] + 10) === true ? posY[0] += 10 : finJuego = true; break;
             case BOTON.ARRIBA: validarPosicion(posY[0] - 10) === true ? posY[0] -= 10 : finJuego = true; break;
         }
-        // if(finJuego === true){
-        //     iniciarJuego();
-        // }
         pintarCulebra(context, posX[0], posY[0]);
         if (comer()) {
             crearComida();
@@ -71,14 +73,14 @@ $(document).ready(function () {
 
     function pintarCulebra(context, posX, posY) {
         context.beginPath();
-        context.fillStyle = "#000000";
+        context.fillStyle = "#0743105f";
         context.fillRect(posX, posY, 10, 10);
         context.stroke();
     }
 
     function pintarComida(context, posX, posY) {
         context.beginPath();
-        context.fillStyle = "#ffffff";
+        context.fillStyle = "#bd130a";
         context.fillRect(posX, posY, 10, 10);
         context.stroke();
     }
@@ -108,6 +110,7 @@ $(document).ready(function () {
     function comer(){
         if (posX[0] === comidaPosX && posY[0] === comidaPosY ){
             tamañoCulebra++;
+            $("#puntos").html("Puntos: " + (tamañoCulebra - 1) + " | Record: " + record);
             return true;
         }
         return false;

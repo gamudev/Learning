@@ -4,7 +4,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
 </head>
 <body>
-    <canvas id="juego" width="300" height="300"></canvas>
+    <div id="contenedorJuego">
+        <div id="contenedorNintendo">
+            <div id="puntos"></div>
+            <div id="juegoOverlay">
+                <img id="nintendo" src="img/consola.jpg" />
+                <canvas height="300" width="300" id="juego"></canvas>
+            </div>
+        </div>
+    </div>
     <script src="snake.js"></script>
 </body>
 </html>
