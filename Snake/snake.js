@@ -6,7 +6,7 @@ $(document).ready(function () {
     let comidaPosX, comidaPosY;
     let tamañoCulebra = 1;
     let pause = false;
-    let record = 0;
+    let record = 1;
     const BOTON = {
         ARRIBA:38,
         ABAJO:40,
@@ -19,16 +19,17 @@ $(document).ready(function () {
     iniciarJuego();
 
     function iniciarJuego(){
-        if(record<tamañoCulebra) {
-            record = tamañoCulebra-1;
-        }
-        $("#puntos").html("Puntos: " + (tamañoCulebra - 1) + " | Record: " + (record-1));
         posX = [];
         posY = [];
         posX[0] = 20;
         posY[0] = 20;
-        tamañoCulebra = 1
-        pause = false
+        pause = false;
+        if (record < tamañoCulebra) {
+            record = tamañoCulebra - 1;
+        }
+        tamañoCulebra = 1;
+        $("#puntos").html("Puntos: " + (tamañoCulebra - 1) + " | Record: " + record);
+
         crearComida();
         pintarCulebra(context, posX[0], posY[0]);
         pintarComida(context, comidaPosX, comidaPosY);
