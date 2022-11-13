@@ -1,0 +1,10 @@
+#contenedorJuego {
+    position: relative;
+}
+
+#juego {
+    position: absolute;
+    border: solid #000000 1px;
+    background-size: contain;
+    background-color: gainsboro;
+}
