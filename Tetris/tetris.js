@@ -2,7 +2,11 @@ $(document).ready(function () {
 
     let juego = $("#juego")[0];
     let context = juego.getContext("2d");
-    let continuar = true;
+    let fin = false;
+    let direccion = '';
+    let figuras = [];
+    let siguienteFigura = false;
+    let numFiguras = 0;
 
     const POS = {
         arribaIzq: { x: 120, y: 5 },
@@ -16,45 +20,44 @@ $(document).ready(function () {
         abajoDer: { x: 160, y: 45 },
     }
 
+    const BOTON = {
+        ARRIBA: 38,
+        ABAJO: 40,
+        IZQUIERDA: 37,
+        DERECHA: 39,
+    }
+
     iniciarJuego();
 
     function iniciarJuego(){
-        nuevaPieza();
-        
+        // while(fin != true){
+        nuevaPieza(); 
+        // }
     }
 
     function nuevaPieza(){
-        // while(continuar){
-            let figura = Math.round(Math.random() * 6);
-            let posicion = 1;
-            pintarFigura(figura, posicion);
-            setTimeout(function () {
-                mover(figura, posicion);
-                console.log("accede");
-            }, 100);
-        // }
+        let tipoFigura = Math.round(Math.random() * 6);
+        let figura = crearFigura(tipoFigura);
+        figuras.push(figura);
+        mover(figura);
     }
 
-    function mover(figura, posicion){
-        posicion++;
-        pintarFigura(figura, posicion);
+    function mover(nuevaFigura){
+        context.clearRect(0, 0, 300, 300);
+        for(let figura of figuras){
+            pintarFigura(figura);
+        }
         setTimeout(function () {
-            mover(figura, posicion);
-        }, 1000);
-        // if(colocada()){
-        //     return;
-        // } else {
-        //     mover(figura, posicion);
-        // }
+            if (siguienteFigura == false) {
+                mover(nuevaFigura);
+            } else {
+                // nuevaPieza();
+            }
+        }, 200);
     }
 
-    function colocada(){
-        return true;
-    }
-
-    function pintarFigura(figura, posicion) {
-        console.log(figura);
-        switch (figura){
+    function crearFigura(tipoFigura) {
+        switch (tipoFigura){
             // figura I
             case 0: puntos = [POS.abajoCen,POS.medioCen,POS.arribaCen];break;
             // figura T
@@ -70,11 +73,52 @@ $(document).ready(function () {
             // figura L
             case 6: puntos = [POS.arribaCen, POS.medioCen, POS.abajoCen, POS.abajoDer]; break;
         }
+        return {tipoFigura, puntos};
+    }
+
+    function pintarFigura(figura){
+        if (direccion === BOTON.IZQUIERDA) {
+            movX = -20;
+            direccion = '';
+        } else if (direccion === BOTON.DERECHA){
+            movX = 20;
+            direccion = '';
+        } else {
+            movX = 0;
+        }
         context.beginPath();
         context.fillStyle = "#000000";
-        for (let punto of puntos) {
-            context.fillRect(punto.x, punto.y + (posicion * 20), 20, 20);
+        let moverDireccionY = true, moverDireccionX = true;
+        for (let punto of figura.puntos) {
+            if ((punto.y + 20) > 300) {
+                moverDireccionY = false;
+                siguienteFigura = true;
+            }
+            if ((punto.x + movX) < 0 || (punto.x + movX) > 280){
+                moverDireccionX = false;
+            }
+        }
+        for (let punto of figura.puntos) {
+            if (moverDireccionY) {
+                punto.y = punto.y + 20; 
+            }
+            if (moverDireccionX) {
+                punto.x += movX;
+            }
+            context.fillRect(punto.x, punto.y, 20, 20);
         }
         context.stroke();
     }
+
+    $(document).keydown(function (e) {
+        const teclaPulsada = e.which;
+        switch(teclaPulsada){
+            // derecha
+            case BOTON.DERECHA: direccion = teclaPulsada; break; 
+            // izquierda 
+            case BOTON.IZQUIERDA: direccion = teclaPulsada; break;
+        }
+    });
+
+
 });
