@@ -2,11 +2,8 @@ $(document).ready(function () {
 
     let juego = $("#juego")[0];
     let context = juego.getContext("2d");
-    let fin = false;
     let direccion = '';
     let figuras = [];
-    let siguienteFigura = false;
-    let numFiguras = 0;
 
     const POS = {
         arribaIzq: { x: 120, y: 5 },
@@ -27,17 +24,19 @@ $(document).ready(function () {
         DERECHA: 39,
     }
 
+    const COLOR = ['red','blue','yellow','white','orange','green'];
+
     iniciarJuego();
 
     function iniciarJuego(){
-        // while(fin != true){
         nuevaPieza(); 
-        // }
     }
 
     function nuevaPieza(){
+        siguienteFigura = false;
         let tipoFigura = Math.round(Math.random() * 6);
         let figura = crearFigura(tipoFigura);
+        console.log(figura);
         figuras.push(figura);
         mover(figura);
     }
@@ -48,10 +47,10 @@ $(document).ready(function () {
             pintarFigura(figura);
         }
         setTimeout(function () {
-            if (siguienteFigura == false) {
-                mover(nuevaFigura);
+            if (nuevaFigura.siguienteFigura == true) {
+                return;
             } else {
-                // nuevaPieza();
+                mover(nuevaFigura);
             }
         }, 200);
     }
@@ -59,45 +58,52 @@ $(document).ready(function () {
     function crearFigura(tipoFigura) {
         switch (tipoFigura){
             // figura I
-            case 0: puntos = [POS.abajoCen,POS.medioCen,POS.arribaCen];break;
+            case 0: tipoFigura = 'I'; puntos = [{ ...POS.abajoCen }, { ...POS.medioCen }, { ...POS.arribaCen }];break;
             // figura T
-            case 1: puntos = [POS.arribaIzq, POS.arribaCen, POS.arribaDer, POS.medioCen]; break;
+            case 1: tipoFigura = 'T'; puntos = [{ ...POS.arribaIzq }, { ...POS.arribaCen }, { ...POS.arribaDer }, { ...POS.medioCen }]; break;
             // figura O
-            case 2: puntos = [POS.arribaCen, POS.arribaDer, POS.medioCen, POS.medioDer]; break;
+            case 2: tipoFigura = 'O'; puntos = [{ ...POS.arribaCen }, { ...POS.arribaDer }, { ...POS.medioCen }, { ...POS.medioDer }]; break;
             // figura S
-            case 3: puntos = [POS.medioIzq, POS.medioCen, POS.arribaCen, POS.arribaDer]; break;
+            case 3: tipoFigura = 'S'; puntos = [{ ...POS.medioIzq }, { ...POS.medioCen }, { ...POS.arribaCen }, { ...POS.arribaDer }]; break;
             // figura Z
-            case 4: puntos = [POS.arribaIzq, POS.arribaCen, POS.medioCen, POS.medioDer]; break;
+            case 4: tipoFigura = 'Z'; puntos = [{ ...POS.arribaIzq }, { ...POS.arribaCen }, { ...POS.medioCen }, { ...POS.medioDer }]; break;
             // figura J
-            case 5: puntos = [POS.arribaCen, POS.medioCen, POS.abajoCen, POS.abajoIzq]; break;
+            case 5: tipoFigura = 'J'; puntos = [{ ...POS.arribaCen }, { ...POS.medioCen }, { ...POS.abajoCen }, { ...POS.abajoIzq }]; break;
             // figura L
-            case 6: puntos = [POS.arribaCen, POS.medioCen, POS.abajoCen, POS.abajoDer]; break;
+            case 6: tipoFigura = 'L'; puntos = [{ ...POS.arribaCen }, { ...POS.medioCen }, { ...POS.abajoCen }, { ...POS.abajoDer }]; break;
         }
-        return {tipoFigura, puntos};
+        return { tipoFigura, puntos, siguienteFigura: false, color: COLOR[Math.round(Math.random() * 6)] };
     }
 
     function pintarFigura(figura){
+        context.beginPath();
+        context.fillStyle = figura.color;
+        if(figura.siguienteFigura == true){
+            for (let punto of figura.puntos) {
+                context.fillRect(punto.x, punto.y, 20, 20);
+            }
+            context.stroke();
+            return;
+        }
+        let moverDireccionY = true, moverDireccionX = true;
+        let movX = 0;
         if (direccion === BOTON.IZQUIERDA) {
             movX = -20;
             direccion = '';
-        } else if (direccion === BOTON.DERECHA){
+        } else if (direccion === BOTON.DERECHA) {
             movX = 20;
             direccion = '';
-        } else {
-            movX = 0;
-        }
-        context.beginPath();
-        context.fillStyle = "#000000";
-        let moverDireccionY = true, moverDireccionX = true;
+        } 
         for (let punto of figura.puntos) {
             if ((punto.y + 20) > 300) {
                 moverDireccionY = false;
-                siguienteFigura = true;
+                figura.siguienteFigura = true;
             }
-            if ((punto.x + movX) < 0 || (punto.x + movX) > 280){
+            if ((punto.x + movX) < 0 || (punto.x + movX) > 280) {
                 moverDireccionX = false;
             }
         }
+       
         for (let punto of figura.puntos) {
             if (moverDireccionY) {
                 punto.y = punto.y + 20; 
