@@ -4,6 +4,9 @@ $(document).ready(function () {
     let context = juego.getContext("2d");
     let direccion = '';
     let figuras = [];
+    let pause = false;
+    let figuraPendiente = undefined;
+    let numeroFiguras = 0;
 
     const POS = {
         arribaIzq: { x: 120, y: 5 },
@@ -22,9 +25,10 @@ $(document).ready(function () {
         ABAJO: 40,
         IZQUIERDA: 37,
         DERECHA: 39,
+        PAUSE:32,
     }
 
-    const COLOR = ['red','blue','yellow','white','orange','green'];
+    const COLOR = ['red','blue','yellow','purple','orange','green', 'brown'];
 
     iniciarJuego();
 
@@ -48,6 +52,9 @@ $(document).ready(function () {
         }
         setTimeout(function () {
             if (nuevaFigura.siguienteFigura == true) {
+                nuevaPieza();
+            } else if (pause == true){
+                figuraPendiente = nuevaFigura;
                 return;
             } else {
                 mover(nuevaFigura);
@@ -56,23 +63,24 @@ $(document).ready(function () {
     }
 
     function crearFigura(tipoFigura) {
+        numeroFiguras++;
         switch (tipoFigura){
             // figura I
-            case 0: tipoFigura = 'I'; puntos = [{ ...POS.abajoCen }, { ...POS.medioCen }, { ...POS.arribaCen }];break;
+            case 0: tipoFigura = 'I'; puntos = [{ ...POS.abajoCen, posicion: ['suelo'] }, { ...POS.medioCen, posicion: [] }, { ...POS.arribaCen, posicion: ['techo'] }]; break;
             // figura T
-            case 1: tipoFigura = 'T'; puntos = [{ ...POS.arribaIzq }, { ...POS.arribaCen }, { ...POS.arribaDer }, { ...POS.medioCen }]; break;
+            case 1: tipoFigura = 'T'; puntos = [{ ...POS.arribaIzq, posicion: ['techo', 'suelo'] }, { ...POS.arribaCen, posicion: ['techo'] }, { ...POS.arribaDer, posicion: ['techo', 'suelo'] }, { ...POS.medioCen, posicion: ['suelo'] }]; break;
             // figura O
-            case 2: tipoFigura = 'O'; puntos = [{ ...POS.arribaCen }, { ...POS.arribaDer }, { ...POS.medioCen }, { ...POS.medioDer }]; break;
+            case 2: tipoFigura = 'O'; puntos = [{ ...POS.arribaCen, posicion: ['techo'] }, { ...POS.arribaDer, posicion: ['techo'] }, { ...POS.medioCen, posicion: ['suelo'] }, { ...POS.medioDer, posicion: ['suelo'] }]; break;
             // figura S
-            case 3: tipoFigura = 'S'; puntos = [{ ...POS.medioIzq }, { ...POS.medioCen }, { ...POS.arribaCen }, { ...POS.arribaDer }]; break;
+            case 3: tipoFigura = 'S'; puntos = [{ ...POS.medioIzq, posicion: ['techo', 'suelo'] }, { ...POS.medioCen, posicion: ['suelo'] }, { ...POS.arribaCen, posicion: ['techo'] }, { ...POS.arribaDer, posicion: ['techo', 'suelo'] }]; break;
             // figura Z
-            case 4: tipoFigura = 'Z'; puntos = [{ ...POS.arribaIzq }, { ...POS.arribaCen }, { ...POS.medioCen }, { ...POS.medioDer }]; break;
+            case 4: tipoFigura = 'Z'; puntos = [{ ...POS.arribaIzq, posicion: ['techo', 'suelo'] }, { ...POS.arribaCen, posicion: ['techo'] }, { ...POS.medioCen, posicion: ['suelo'] }, { ...POS.medioDer, posicion: ['techo', 'suelo'] }]; break;
             // figura J
-            case 5: tipoFigura = 'J'; puntos = [{ ...POS.arribaCen }, { ...POS.medioCen }, { ...POS.abajoCen }, { ...POS.abajoIzq }]; break;
+            case 5: tipoFigura = 'J'; puntos = [{ ...POS.arribaCen, posicion: ['techo'] }, { ...POS.medioCen, posicion: [] }, { ...POS.abajoCen, posicion: ['suelo'] }, { ...POS.abajoIzq, posicion: ['techo', 'suelo'] }]; break;
             // figura L
-            case 6: tipoFigura = 'L'; puntos = [{ ...POS.arribaCen }, { ...POS.medioCen }, { ...POS.abajoCen }, { ...POS.abajoDer }]; break;
+            case 6: tipoFigura = 'L'; puntos = [{ ...POS.arribaCen, posicion: ['techo'] }, { ...POS.medioCen, posicion: [] }, { ...POS.abajoCen, posicion: ['suelo'] }, { ...POS.abajoDer, posicion: ['techo', 'suelo'] }]; break;
         }
-        return { tipoFigura, puntos, siguienteFigura: false, color: COLOR[Math.round(Math.random() * 6)] };
+        return { id:numeroFiguras,tipoFigura, puntos, siguienteFigura: false, color: COLOR[Math.round(Math.random() * 6)] };
     }
 
     function pintarFigura(figura){
@@ -81,6 +89,9 @@ $(document).ready(function () {
         if(figura.siguienteFigura == true){
             for (let punto of figura.puntos) {
                 context.fillRect(punto.x, punto.y, 20, 20);
+                context.strokeStyle = "black";
+                context.lineWidth = 2;
+                context.strokeRect(punto.x, punto.y, 20, 20);
             }
             context.stroke();
             return;
@@ -95,7 +106,7 @@ $(document).ready(function () {
             direccion = '';
         } 
         for (let punto of figura.puntos) {
-            if ((punto.y + 20) > 300) {
+            if ((punto.y + 20) > 300 || (punto.posicion.includes('suelo') && apoyado(punto, figura.id))) {
                 moverDireccionY = false;
                 figura.siguienteFigura = true;
             }
@@ -112,8 +123,25 @@ $(document).ready(function () {
                 punto.x += movX;
             }
             context.fillRect(punto.x, punto.y, 20, 20);
+            context.strokeStyle = "black";
+            context.lineWidth = 2;
+            context.strokeRect(punto.x, punto.y, 20, 20);
         }
         context.stroke();
+    }
+
+    function apoyado(puntoActual, figuraId){
+        for (let figura of figuras) {
+            if (figura.id == figuraId){
+                continue;
+            }
+            for(let punto of figura.puntos){
+                if(punto.posicion.includes('techo') && punto.x === puntoActual.x && punto.y === (puntoActual.y+20)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     $(document).keydown(function (e) {
@@ -123,6 +151,15 @@ $(document).ready(function () {
             case BOTON.DERECHA: direccion = teclaPulsada; break; 
             // izquierda 
             case BOTON.IZQUIERDA: direccion = teclaPulsada; break;
+            // pause
+            case BOTON.PAUSE: 
+                if (pause === false) {
+                    pause = true;
+                } else {
+                    pause = false;
+                    mover(figuraPendiente);
+                }; 
+                break;
         }
     });
 
