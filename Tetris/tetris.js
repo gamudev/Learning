@@ -65,20 +65,60 @@ $(document).ready(function () {
     function crearFigura(tipoFigura) {
         numeroFiguras++;
         switch (tipoFigura){
-            // figura I
-            case 0: tipoFigura = 'I'; puntos = [{ ...POS.abajoCen, posicion: ['suelo'] }, { ...POS.medioCen, posicion: [] }, { ...POS.arribaCen, posicion: ['techo'] }]; break;
-            // figura T
-            case 1: tipoFigura = 'T'; puntos = [{ ...POS.arribaIzq, posicion: ['techo', 'suelo'] }, { ...POS.arribaCen, posicion: ['techo'] }, { ...POS.arribaDer, posicion: ['techo', 'suelo'] }, { ...POS.medioCen, posicion: ['suelo'] }]; break;
-            // figura O
-            case 2: tipoFigura = 'O'; puntos = [{ ...POS.arribaCen, posicion: ['techo'] }, { ...POS.arribaDer, posicion: ['techo'] }, { ...POS.medioCen, posicion: ['suelo'] }, { ...POS.medioDer, posicion: ['suelo'] }]; break;
-            // figura S
-            case 3: tipoFigura = 'S'; puntos = [{ ...POS.medioIzq, posicion: ['techo', 'suelo'] }, { ...POS.medioCen, posicion: ['suelo'] }, { ...POS.arribaCen, posicion: ['techo'] }, { ...POS.arribaDer, posicion: ['techo', 'suelo'] }]; break;
-            // figura Z
-            case 4: tipoFigura = 'Z'; puntos = [{ ...POS.arribaIzq, posicion: ['techo', 'suelo'] }, { ...POS.arribaCen, posicion: ['techo'] }, { ...POS.medioCen, posicion: ['suelo'] }, { ...POS.medioDer, posicion: ['techo', 'suelo'] }]; break;
-            // figura J
-            case 5: tipoFigura = 'J'; puntos = [{ ...POS.arribaCen, posicion: ['techo'] }, { ...POS.medioCen, posicion: [] }, { ...POS.abajoCen, posicion: ['suelo'] }, { ...POS.abajoIzq, posicion: ['techo', 'suelo'] }]; break;
-            // figura L
-            case 6: tipoFigura = 'L'; puntos = [{ ...POS.arribaCen, posicion: ['techo'] }, { ...POS.medioCen, posicion: [] }, { ...POS.abajoCen, posicion: ['suelo'] }, { ...POS.abajoDer, posicion: ['techo', 'suelo'] }]; break;
+            case 0: 
+                tipoFigura = 'I'; 
+                puntos = [
+                    { ...POS.abajoCen, posicion: ['suelo','izquierda','derecha'] }, 
+                    { ...POS.medioCen, posicion: ['izquierda', 'derecha'] }, 
+                    { ...POS.arribaCen, posicion: ['techo', 'izquierda', 'derecha'] }
+                ]; break;
+            case 1: 
+                tipoFigura = 'T'; 
+                puntos = [
+                    { ...POS.arribaIzq, posicion: ['techo', 'suelo', 'izquierda'] }, 
+                    { ...POS.arribaCen, posicion: ['techo'] }, 
+                    { ...POS.arribaDer, posicion: ['techo', 'suelo', 'derecha'] },
+                    { ...POS.medioCen, posicion: ['suelo', 'izquierda', 'derecha'] }
+                ]; break;
+            case 2: 
+                tipoFigura = 'O'; 
+                puntos = [
+                    { ...POS.arribaCen, posicion: ['techo', 'izquierda'] }, 
+                    { ...POS.arribaDer, posicion: ['techo', 'derecha'] }, 
+                    { ...POS.medioCen, posicion: ['suelo', 'izquierda'] }, 
+                    { ...POS.medioDer, posicion: ['suelo', 'derecha'] }
+                ]; break;
+            case 3: 
+                tipoFigura = 'S'; 
+                puntos = [{ ...POS.medioIzq, posicion: ['techo', 'suelo', 'izquierda'] }, 
+                    { ...POS.medioCen, posicion: ['suelo', 'derecha'] }, 
+                    { ...POS.arribaCen, posicion: ['techo', 'izquierda'] }, 
+                    { ...POS.arribaDer, posicion: ['techo', 'suelo', 'derecha'] }
+                ]; break;
+            case 4: 
+                tipoFigura = 'Z'; 
+                puntos = [
+                    { ...POS.arribaIzq, posicion: ['techo', 'suelo', 'izquierda'] }, 
+                    { ...POS.arribaCen, posicion: ['techo', 'derecha'] }, 
+                    { ...POS.medioCen, posicion: ['suelo', 'izquierda'] }, 
+                    { ...POS.medioDer, posicion: ['techo', 'suelo', 'derecha'] }
+                ]; break;
+            case 5: 
+                tipoFigura = 'J'; 
+                puntos = [
+                    { ...POS.arribaCen, posicion: ['techo', 'izquierda', 'derecha'] }, 
+                    { ...POS.medioCen, posicion: ['izquierda', 'derecha'] }, 
+                    { ...POS.abajoCen, posicion: ['suelo', 'derecha'] }, 
+                    { ...POS.abajoIzq, posicion: ['techo', 'suelo', 'izquierda'] }
+                ]; break;
+            case 6: 
+                tipoFigura = 'L'; 
+                puntos = [
+                    { ...POS.arribaCen, posicion: ['techo', 'izquierda', 'derecha'] }, 
+                    { ...POS.medioCen, posicion: ['izquierda', 'derecha'] }, 
+                    { ...POS.abajoCen, posicion: ['suelo', 'izquierda'] }, 
+                    { ...POS.abajoDer, posicion: ['techo', 'suelo', 'derecha'] }
+                ]; break;
         }
         return { id:numeroFiguras,tipoFigura, puntos, siguienteFigura: false, color: COLOR[Math.round(Math.random() * 6)] };
     }
@@ -110,7 +150,7 @@ $(document).ready(function () {
                 moverDireccionY = false;
                 figura.siguienteFigura = true;
             }
-            if ((punto.x + movX) < 0 || (punto.x + movX) > 280) {
+            if (movX != 0 && ((punto.x + movX) < 0 || (punto.x + movX) > 280 || apoyadoLateral(punto, figura.id, movX))) {
                 moverDireccionX = false;
             }
         }
@@ -137,6 +177,21 @@ $(document).ready(function () {
             }
             for(let punto of figura.puntos){
                 if(punto.posicion.includes('techo') && punto.x === puntoActual.x && punto.y === (puntoActual.y+20)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function apoyadoLateral(puntoActual, figuraId, movX){
+        for (let figura of figuras) {
+            if (figura.id == figuraId) {
+                continue;
+            }
+            for (let punto of figura.puntos) {
+                if ((movX == -20 && punto.posicion.includes('derecha') && puntoActual.posicion.includes('izquierda') && punto.x === (puntoActual.x+movX) && punto.y === puntoActual.y)
+                    || (movX == 20 && punto.posicion.includes('izquierda') && puntoActual.posicion.includes('derecha') && punto.x === (puntoActual.x+movX) && punto.y === puntoActual.y)) {
                     return true;
                 }
             }
