@@ -38,7 +38,8 @@ $(document).ready(function () {
 
     function nuevaPieza(){
         siguienteFigura = false;
-        let tipoFigura = Math.round(Math.random() * 6);
+        // let tipoFigura = Math.round(Math.random() * 6);
+        let tipoFigura = 0;
         let figura = crearFigura(tipoFigura);
         console.log(figura);
         figuras.push(figura);
@@ -51,9 +52,10 @@ $(document).ready(function () {
             pintarFigura(figura);
         }
         setTimeout(function () {
-            if (nuevaFigura.siguienteFigura == true) {
+            if (nuevaFigura.siguienteFigura) {
+                lineasCompletas();
                 nuevaPieza();
-            } else if (pause == true){
+            } else if (pause){
                 figuraPendiente = nuevaFigura;
                 return;
             } else {
@@ -126,7 +128,7 @@ $(document).ready(function () {
     function pintarFigura(figura){
         context.beginPath();
         context.fillStyle = figura.color;
-        if(figura.siguienteFigura == true){
+        if(figura.siguienteFigura){
             for (let punto of figura.puntos) {
                 context.fillRect(punto.x, punto.y, 20, 20);
                 context.strokeStyle = "black";
@@ -150,7 +152,7 @@ $(document).ready(function () {
                 moverDireccionY = false;
                 figura.siguienteFigura = true;
             }
-            if (movX != 0 && ((punto.x + movX) < 0 || (punto.x + movX) > 280 || apoyadoLateral(punto, figura.id, movX))) {
+            if (movX != 0 && ((punto.x + movX) < 0 || (punto.x + movX) > 280 || apoyadoLateral(punto, figura.id, movX, moverDireccionY))) {
                 moverDireccionX = false;
             }
         }
@@ -184,14 +186,45 @@ $(document).ready(function () {
         return false;
     }
 
-    function apoyadoLateral(puntoActual, figuraId, movX){
+    function apoyadoLateral(puntoActual, figuraId, movX, moverDireccionY){
+        let auxY = moverDireccionY ? 20 : 0;
         for (let figura of figuras) {
             if (figura.id == figuraId) {
                 continue;
             }
             for (let punto of figura.puntos) {
-                if ((movX == -20 && punto.posicion.includes('derecha') && puntoActual.posicion.includes('izquierda') && punto.x === (puntoActual.x+movX) && punto.y === puntoActual.y)
-                    || (movX == 20 && punto.posicion.includes('izquierda') && puntoActual.posicion.includes('derecha') && punto.x === (puntoActual.x+movX) && punto.y === puntoActual.y)) {
+                if ((movX == -20 && punto.x === (puntoActual.x + movX) && punto.y === (puntoActual.y + auxY))
+                    || (movX == 20 && punto.x === (puntoActual.x + movX) && punto.y === (puntoActual.y + auxY))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function lineasCompletas(){
+        for (let linea = 14; linea >=  0; linea--){
+            let lineaCompleta = true;
+            for(let columna = 0; columna < 15; columna++){
+                if(!posicionOcupada(linea, columna)){
+                    lineaCompleta = false;
+                    break;
+                }
+            }
+            if(lineaCompleta){
+                console.log("Borrar linea");
+            }
+        }
+    }
+
+    function posicionOcupada(linea, columna){
+        console.log("*******************");
+        const tamaño = 20;
+        for (let figura of figuras) {
+            for (let punto of figura.puntos){
+                console.log("punto.y " + punto.y + " vs linea " + (linea * tamaño));
+                console.log("punto.x " + punto.x + " vs columna " + (columna * tamaño));
+                if (punto.y == (linea * tamaño) && punto.x == (columna * tamaño)) {
                     return true;
                 }
             }
