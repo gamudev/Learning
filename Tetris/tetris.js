@@ -7,17 +7,19 @@ $(document).ready(function () {
     let pause = false;
     let figuraPendiente = undefined;
     let numeroFiguras = 0;
+    let velocidadMovimiento = 200;
+    const TAMAÑO_UNIDAD = 20;
 
     const POS = {
-        arribaIzq: { x: 120, y: 5 },
-        arribaCen: { x: 140, y: 5 },
-        arribaDer: { x: 160, y: 5 },
-        medioIzq: { x: 120, y: 25 },
-        medioCen: { x: 140, y: 25 },
-        medioDer: { x: 160, y: 25 },
-        abajoIzq: { x: 120, y: 45 },
-        abajoCen: { x: 140, y: 45 },
-        abajoDer: { x: 160, y: 45 },
+        arribaIzq: { x: 120, y: -60 },
+        arribaCen: { x: 140, y: -60 },
+        arribaDer: { x: 160, y: -60 },
+        medioIzq: { x: 120, y: -40 },
+        medioCen: { x: 140, y: -40 },
+        medioDer: { x: 160, y: -40 },
+        abajoIzq: { x: 120, y: -20 },
+        abajoCen: { x: 140, y: -20 },
+        abajoDer: { x: 160, y: -2 0 },
     }
 
     const BOTON = {
@@ -54,6 +56,7 @@ $(document).ready(function () {
         setTimeout(function () {
             if (nuevaFigura.siguienteFigura) {
                 lineasCompletas();
+                velocidadMovimiento = 200;
                 nuevaPieza();
             } else if (pause){
                 figuraPendiente = nuevaFigura;
@@ -61,7 +64,7 @@ $(document).ready(function () {
             } else {
                 mover(nuevaFigura);
             }
-        }, 200);
+        }, velocidadMovimiento);
     }
 
     function crearFigura(tipoFigura) {
@@ -130,10 +133,10 @@ $(document).ready(function () {
         context.fillStyle = figura.color;
         if(figura.siguienteFigura){
             for (let punto of figura.puntos) {
-                context.fillRect(punto.x, punto.y, 20, 20);
+                context.fillRect(punto.x, punto.y, TAMAÑO_UNIDAD, TAMAÑO_UNIDAD);
                 context.strokeStyle = "black";
                 context.lineWidth = 2;
-                context.strokeRect(punto.x, punto.y, 20, 20);
+                context.strokeRect(punto.x, punto.y, TAMAÑO_UNIDAD, TAMAÑO_UNIDAD);
             }
             context.stroke();
             return;
@@ -141,14 +144,14 @@ $(document).ready(function () {
         let moverDireccionY = true, moverDireccionX = true;
         let movX = 0;
         if (direccion === BOTON.IZQUIERDA) {
-            movX = -20;
+            movX = -TAMAÑO_UNIDAD;
             direccion = '';
         } else if (direccion === BOTON.DERECHA) {
-            movX = 20;
+            movX = TAMAÑO_UNIDAD;
             direccion = '';
         } 
         for (let punto of figura.puntos) {
-            if ((punto.y + 20) > 300 || (punto.posicion.includes('suelo') && apoyado(punto, figura.id))) {
+            if ((punto.y + TAMAÑO_UNIDAD) >= 300 || (punto.posicion.includes('suelo') && apoyado(punto, figura.id))) {
                 moverDireccionY = false;
                 figura.siguienteFigura = true;
             }
@@ -159,15 +162,15 @@ $(document).ready(function () {
        
         for (let punto of figura.puntos) {
             if (moverDireccionY) {
-                punto.y = punto.y + 20; 
+                punto.y = punto.y + TAMAÑO_UNIDAD; 
             }
             if (moverDireccionX) {
                 punto.x += movX;
             }
-            context.fillRect(punto.x, punto.y, 20, 20);
+            context.fillRect(punto.x, punto.y, TAMAÑO_UNIDAD, TAMAÑO_UNIDAD);
             context.strokeStyle = "black";
             context.lineWidth = 2;
-            context.strokeRect(punto.x, punto.y, 20, 20);
+            context.strokeRect(punto.x, punto.y, TAMAÑO_UNIDAD, TAMAÑO_UNIDAD);
         }
         context.stroke();
     }
@@ -178,7 +181,7 @@ $(document).ready(function () {
                 continue;
             }
             for(let punto of figura.puntos){
-                if(punto.posicion.includes('techo') && punto.x === puntoActual.x && punto.y === (puntoActual.y+20)){
+                if (punto.posicion.includes('techo') && punto.x === puntoActual.x && punto.y === (puntoActual.y + TAMAÑO_UNIDAD)){
                     return true;
                 }
             }
@@ -187,14 +190,14 @@ $(document).ready(function () {
     }
 
     function apoyadoLateral(puntoActual, figuraId, movX, moverDireccionY){
-        let auxY = moverDireccionY ? 20 : 0;
+        let auxY = moverDireccionY ? TAMAÑO_UNIDAD : 0;
         for (let figura of figuras) {
             if (figura.id == figuraId) {
                 continue;
             }
             for (let punto of figura.puntos) {
-                if ((movX == -20 && punto.x === (puntoActual.x + movX) && punto.y === (puntoActual.y + auxY))
-                    || (movX == 20 && punto.x === (puntoActual.x + movX) && punto.y === (puntoActual.y + auxY))) {
+                if ((movX == -TAMAÑO_UNIDAD && punto.x === (puntoActual.x + movX) && punto.y === (puntoActual.y + auxY))
+                    || (movX == TAMAÑO_UNIDAD && punto.x === (puntoActual.x + movX) && punto.y === (puntoActual.y + auxY))) {
                     return true;
                 }
             }
@@ -202,34 +205,58 @@ $(document).ready(function () {
         return false;
     }
 
+
+    // test();
+    // function test(){
+    //     let figura = {}
+    //     let puntos = [] 
+    //     for(let x = 0; x < 15; x++){
+    //         let punto = { x: x*20, y: 280 , posicion:['suelo']};
+    //         puntos.push(punto)
+    //     }
+    //     figura = {puntos};
+    //     figuras.push(figura);
+    //     lineasCompletas();
+    // }
+
     function lineasCompletas(){
-        for (let linea = 14; linea >=  0; linea--){
+        for (let fila = 14; fila >= 0; fila--){
             let lineaCompleta = true;
             for(let columna = 0; columna < 15; columna++){
-                if(!posicionOcupada(linea, columna)){
+                if (!posicionOcupada(fila, columna)){
                     lineaCompleta = false;
                     break;
                 }
             }
             if(lineaCompleta){
-                console.log("Borrar linea");
+                borrarlinea(fila);
+                lineasCompletas()
             }
         }
     }
 
-    function posicionOcupada(linea, columna){
-        console.log("*******************");
-        const tamaño = 20;
+    function posicionOcupada(fila, columna){
         for (let figura of figuras) {
             for (let punto of figura.puntos){
-                console.log("punto.y " + punto.y + " vs linea " + (linea * tamaño));
-                console.log("punto.x " + punto.x + " vs columna " + (columna * tamaño));
-                if (punto.y == (linea * tamaño) && punto.x == (columna * tamaño)) {
+                if (punto.y == (fila * TAMAÑO_UNIDAD) && punto.x == (columna * TAMAÑO_UNIDAD)) {
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    function borrarlinea(linea){
+        for (let figura of figuras) {
+            figura.puntos = figura.puntos
+                .filter((punto) => punto.y !== (linea * TAMAÑO_UNIDAD))
+                .map((punto) => {
+                    if (punto.y < (linea * TAMAÑO_UNIDAD)) {
+                        punto.y = punto.y + TAMAÑO_UNIDAD;
+                    } 
+                    return punto;
+                });
+        }
     }
 
     $(document).keydown(function (e) {
@@ -239,6 +266,8 @@ $(document).ready(function () {
             case BOTON.DERECHA: direccion = teclaPulsada; break; 
             // izquierda 
             case BOTON.IZQUIERDA: direccion = teclaPulsada; break;
+            //abajo
+            case BOTON.ABAJO: velocidadMovimiento = 10; break;
             // pause
             case BOTON.PAUSE: 
                 if (pause === false) {
