@@ -19,7 +19,7 @@ $(document).ready(function () {
         medioDer: { x: 160, y: -40 },
         abajoIzq: { x: 120, y: -20 },
         abajoCen: { x: 140, y: -20 },
-        abajoDer: { x: 160, y: -2 0 },
+        abajoDer: { x: 160, y: -20 },
     }
 
     const BOTON = {
@@ -204,20 +204,6 @@ $(document).ready(function () {
         }
         return false;
     }
-
-
-    // test();
-    // function test(){
-    //     let figura = {}
-    //     let puntos = [] 
-    //     for(let x = 0; x < 15; x++){
-    //         let punto = { x: x*20, y: 280 , posicion:['suelo']};
-    //         puntos.push(punto)
-    //     }
-    //     figura = {puntos};
-    //     figuras.push(figura);
-    //     lineasCompletas();
-    // }
 
     function lineasCompletas(){
         for (let fila = 14; fila >= 0; fila--){
