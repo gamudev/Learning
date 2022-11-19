@@ -8,6 +8,7 @@ $(document).ready(function () {
     let figuraPendiente = undefined;
     let numeroFiguras = 0;
     let velocidadMovimiento = 200;
+    let terminar = false;
     const TAMAÑO_UNIDAD = 20;
 
     const POS = {
@@ -28,20 +29,28 @@ $(document).ready(function () {
         IZQUIERDA: 37,
         DERECHA: 39,
         PAUSE:32,
+        ENTER:13,
     }
 
-    const COLOR = ['red','blue','yellow','purple','orange','green', 'brown'];
+    const COLOR = [,'blue','yellow','purple','orange','green', 'brown'];
 
     iniciarJuego();
 
     function iniciarJuego(){
+        direccion = '';
+        figuras = [];
+        pause = false;
+        figuraPendiente = undefined;
+        numeroFiguras = 0;
+        velocidadMovimiento = 200;
+        terminar = false;
+        context.clearRect(0, 0, 300, 300);
         nuevaPieza(); 
     }
 
     function nuevaPieza(){
         siguienteFigura = false;
-        // let tipoFigura = Math.round(Math.random() * 6);
-        let tipoFigura = 0;
+        let tipoFigura = Math.round(Math.random() * 5);
         let figura = crearFigura(tipoFigura);
         console.log(figura);
         figuras.push(figura);
@@ -56,6 +65,10 @@ $(document).ready(function () {
         setTimeout(function () {
             if (nuevaFigura.siguienteFigura) {
                 lineasCompletas();
+                if (comprobarDerrota(nuevaFigura)){
+                    terminar = true;
+                    return finJuego();   
+                }
                 velocidadMovimiento = 200;
                 nuevaPieza();
             } else if (pause){
@@ -157,7 +170,7 @@ $(document).ready(function () {
             }
             if (movX != 0 && ((punto.x + movX) < 0 || (punto.x + movX) > 280 || apoyadoLateral(punto, figura.id, movX, moverDireccionY))) {
                 moverDireccionX = false;
-            }
+            } 
         }
        
         for (let punto of figura.puntos) {
@@ -245,26 +258,47 @@ $(document).ready(function () {
         }
     }
 
+    function comprobarDerrota(figura){
+        return figura.puntos.some(puntos => puntos.y == 0);
+    }
+
+    function finJuego(){
+        context.beginPath();
+        context.fillStyle = '#FF003B';
+        context.strokeStyle = "black"
+        context.font = "40pt Impact";
+        context.fillText("GAME OVER", 33,120);
+        context.strokeText("GAME OVER", 33,120);
+        context.font = '18pt Impact';
+        context.fillText("Press enter to restart", 42, 160);
+        context.strokeText("Press enter to restart", 42, 160);
+        context.stroke();
+    }
+
     $(document).keydown(function (e) {
         const teclaPulsada = e.which;
-        switch(teclaPulsada){
+        switch (teclaPulsada) {
             // derecha
-            case BOTON.DERECHA: direccion = teclaPulsada; break; 
+            case BOTON.DERECHA: direccion = teclaPulsada; break;
             // izquierda 
             case BOTON.IZQUIERDA: direccion = teclaPulsada; break;
-            //abajo
+            // abajo
             case BOTON.ABAJO: velocidadMovimiento = 10; break;
+            // enter
+            case BOTON.ENTER: if(terminar){
+                    iniciarJuego();  
+                } 
+                break;
             // pause
-            case BOTON.PAUSE: 
+            case BOTON.PAUSE:
                 if (pause === false) {
                     pause = true;
                 } else {
                     pause = false;
                     mover(figuraPendiente);
-                }; 
+                };
                 break;
         }
     });
-
 
 });
