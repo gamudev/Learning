@@ -1,0 +1,33 @@
+body{
+    background-color: white;
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#containerQuestion{
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+#containerAnswers {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+#question{
+    background-image: url(img/flagUK.png);
+    margin-bottom: 50px;
+}
+
+input{
+    height: 100px;
+    width: 600px;
+    font-size: 40pt;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
