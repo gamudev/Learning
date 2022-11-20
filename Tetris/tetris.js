@@ -1,15 +1,22 @@
 $(document).ready(function () {
-
+    
+    const HEIGHT = $("#juego").attr("height");
+    const WIDTH = $("#juego").attr("width");
+    const TAMAÑO_UNIDAD = 20;
+    const FILAS = HEIGHT / TAMAÑO_UNIDAD;
+    const COLUMNAS = WIDTH / TAMAÑO_UNIDAD;
+    
     let juego = $("#juego")[0];
     let context = juego.getContext("2d");
+    
     let direccion = '';
     let figuras = [];
     let pause = false;
     let figuraPendiente = undefined;
     let numeroFiguras = 0;
+    let lineasCompletas = 0;
     let velocidadMovimiento = 200;
     let terminar = false;
-    const TAMAÑO_UNIDAD = 20;
 
     const POS = {
         arribaIzq: { x: 120, y: -60 },
@@ -42,9 +49,10 @@ $(document).ready(function () {
         pause = false;
         figuraPendiente = undefined;
         numeroFiguras = 0;
+        lineasCompletas = 0;
         velocidadMovimiento = 200;
         terminar = false;
-        context.clearRect(0, 0, 300, 300);
+        context.clearRect(0, 0, WIDTH, HEIGHT);
         nuevaPieza(); 
     }
 
@@ -58,13 +66,14 @@ $(document).ready(function () {
     }
 
     function mover(nuevaFigura){
-        context.clearRect(0, 0, 300, 300);
+        context.clearRect(0, 0, WIDTH, HEIGHT);
+        puntuacion();
         for(let figura of figuras){
             pintarFigura(figura);
         }
         setTimeout(function () {
             if (nuevaFigura.siguienteFigura) {
-                lineasCompletas();
+                comprobarLineasCompletas();
                 if (comprobarDerrota(nuevaFigura)){
                     terminar = true;
                     return finJuego();   
@@ -164,11 +173,11 @@ $(document).ready(function () {
             direccion = '';
         } 
         for (let punto of figura.puntos) {
-            if ((punto.y + TAMAÑO_UNIDAD) >= 300 || (punto.posicion.includes('suelo') && apoyado(punto, figura.id))) {
+            if ((punto.y + TAMAÑO_UNIDAD) >= HEIGHT || (punto.posicion.includes('suelo') && apoyado(punto, figura.id))) {
                 moverDireccionY = false;
                 figura.siguienteFigura = true;
             }
-            if (movX != 0 && ((punto.x + movX) < 0 || (punto.x + movX) > 280 || apoyadoLateral(punto, figura.id, movX, moverDireccionY))) {
+            if (movX != 0 && ((punto.x + movX) < 0 || (punto.x + movX) > (WIDTH - TAMAÑO_UNIDAD) || apoyadoLateral(punto, figura.id, movX, moverDireccionY))) {
                 moverDireccionX = false;
             } 
         }
@@ -218,18 +227,19 @@ $(document).ready(function () {
         return false;
     }
 
-    function lineasCompletas(){
-        for (let fila = 14; fila >= 0; fila--){
+    function comprobarLineasCompletas(){
+        for (let fila = FILAS-1; fila >= 0; fila--){
             let lineaCompleta = true;
-            for(let columna = 0; columna < 15; columna++){
+            for(let columna = 0; columna < COLUMNAS; columna++){
                 if (!posicionOcupada(fila, columna)){
                     lineaCompleta = false;
                     break;
                 }
             }
             if(lineaCompleta){
+                lineasCompletas++;
                 borrarlinea(fila);
-                lineasCompletas()
+                comprobarLineasCompletas()
             }
         }
     }
@@ -266,12 +276,27 @@ $(document).ready(function () {
         context.beginPath();
         context.fillStyle = '#FF003B';
         context.strokeStyle = "black"
-        context.font = "40pt Impact";
-        context.fillText("GAME OVER", 33,120);
-        context.strokeText("GAME OVER", 33,120);
-        context.font = '18pt Impact';
-        context.fillText("Press enter to restart", 42, 160);
-        context.strokeText("Press enter to restart", 42, 160);
+        context.font = "45pt Impact";
+        context.fillText("GAME OVER", 28, 200);
+        context.strokeText("GAME OVER", 28, 200);
+        context.font = '25pt Impact';
+        context.fillText("Press ENTER to restart", 10, 240);
+        context.strokeText("Press ENTER to restart", 10, 240);
+        context.stroke();
+    }
+
+    function puntuacion(){
+        puntuación = lineasCompletas;
+        pintarPuntuación();
+    }
+
+    function pintarPuntuación(){
+        context.beginPath();
+        context.fillStyle = 'white';
+        context.strokeStyle = "black"
+        context.font = '20pt Impact';
+        context.fillText("Points: " + puntuación, 2, 24);
+        context.strokeText("Points: " + puntuación, 2, 24);
         context.stroke();
     }
 
