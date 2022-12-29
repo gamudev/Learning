@@ -1,0 +1,33 @@
+*{
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background-color: green;
+    height: 5%;
+    width: 100%;
+    text-align: center;
+    position: fixed;
+}
+
+section{
+    background-color: blue;
+    height: 500px;
+    width: 100%;
+    border: 1px solid black;
+    margin-bottom: 20px;
+    text-align: center;
+    color:white;
+}
+
+footer {
+    background-color: red;
+    width: 100%;
+    height: 5%;
+    position:fixed;
+    bottom: 0;
+    text-align: center;
+}
